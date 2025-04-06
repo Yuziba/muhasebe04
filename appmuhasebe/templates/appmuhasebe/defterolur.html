@@ -1,4 +1,192 @@
 <h3>Defter Olur</h3>
 {% extends "base.html" %}
 {% block content %}
+<div class="container-xxl">
+    <h3 style="padding-bottom: 20px; text-align:center">DENEME</h3>
+    
+    
+  <form action="#" method="POST">
+      {% csrf_token%}
+      <div class="" style="width: 100%; margin:auto;">
+        <div class="card">
+          <div class="card-header" style="text-align: center;">
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
+              <div class="" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+                <label for="" class="form-label" style="width:20%; padding-right:10px;">Onay Tarihi</label>
+                <input type="date" class="form-control" id="onay_tarih" name="onay_tarih">
+              </div>
+
+              <script>  // Sayfa yüklendiğinde çalışacak JavaScript kodu
+                document.addEventListener('DOMContentLoaded', function () {
+                    var today = new Date().toISOString().split('T')[0]; // Bugünün tarihini alma
+                    var onayTarihInput = document.getElementById('onay_tarih'); // Onay Tarihi alanına bugünün tarihini atama
+                    if (onayTarihInput) {
+                        onayTarihInput.value = onayTarihInput.value || today;
+                    }
+                });
+              </script>
+            
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->         
+            <div class="onaysutun onayaciklama" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onayaciklama" class="form-label" style="width:20%; padding-right:10px;">Açıklama</label>
+              <input type="text" class="form-control" id="onay_aciklama" name="onay_aciklama" maxlength="110">
+            </div>
+            
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+    
+            <div class="onaysutun onay_odemetutar" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onay_odemetutar" class="form-label" style="width:20%; padding-right:10px;">Ödeme Tutarı</label>
+              <input type="text" class="form-control" id="onay_odemetutar" name="onay_odemetutar">
+            </div>
+            
+           <!-- bu alan ilerde guncellenecek. suna sadece rakam ve virgul girilmesine izin veriyor.
+          daha sonra virgulden sonra 2 basamak olarak sinirlandirmak gerek
+        -->
+            <script>
+              document.getElementById("onay_odemetutar").addEventListener("input", function() {
+                  var inputValue = this.value;
+                  // Girdiyi kontrol et
+                  if (!isValidInput(inputValue)) {
+                      alert("Geçerli bir sayı girin.");
+                      this.value = "";  // Girdiyi sıfırla veya başka bir işlem yapabilirsiniz
+                  } 
+              });
+          
+              
+              function isValidInput(value) {    // Geçerli girdi kontrolü için yardımcı fonksiyon
+                  var regex = /^[0-9,]*$/;      // Rakam ve virgül içermeli
+                  return regex.test(value);
+              }
+          </script>
+          
+          
+          
+          
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->          
+    
+          <div class="onaysutun onay_parabirimi" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+            <label for="onay_parabirimi" class="form-label" style="width:20%; padding-right:10px;">Para Birimi</label>
+            <select class="form-select" id="onay_parabirimi" name="onay_parabirimi">
+                <option value="Som">Som</option>
+                <option value="Lira">Lira</option>
+                <option value="Dolar">Dolar</option>
+                <option value="Euro">Euro</option>
+            </select>
+        </div>
+        
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->    
+            <div class="onaysutun onay_odemeyolu" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onay_odemeyolu" class="form-label" style="width:20%; padding-right:10px;">Ödeme Yolu</label>
+              <select class="form-select" id="onay_odemeyolu" name="onay_odemeyolu">
+                <option value="Banka">Banka</option>
+                <option value="Kasa">Kasa</option>
+                <option value="Genel Olur">Genel Olur</option>
+              </select>
+            </div>
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->   
+            <!--belge no olarak ele alindi ama database de degsitirilmedi-->
+            <div class="onaysutun onayno" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onayno" class="form-label" style="width:20%; padding-right:10px;"> SGB Belge No</label>
+              <input type="text" class="form-control" id="onayno" name="onay_no"> 
+            </div>
+    
+            <div style="width: 100%; display:flex"> 
+              
+                <button type="submit" class="btn btn-primary btn-sm" style="width: 40%; margin:auto" id="closeNewWindowButton">Kaydet</button>
+              
+            </div>
+            
+          </div>
+        </div>  
+      </div>
+      
+  </form>
+  <script>
+    document.getElementById("submitFormButton").addEventListener("click", function() {
+        var onayTarihInput = document.getElementById("onay_tarih");
+        var onayTarihValue = onayTarihInput.value;
+    
+        // Tarih formatını kontrol et
+        if (!isValidDate(onayTarihValue)) {
+            alert("Geçerli bir tarih formatı girin (YYYY-MM-DD).");
+            // Formun gönderilmesini engelle
+            event.preventDefault();
+        }
+    });
+    
+    // Tarih formatını kontrol etmek için bir yardımcı fonksiyon
+    function isValidDate(dateString) {
+        var regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(dateString);
+    }
+    </script>
+    
+  
+
+
+</div>
+
+<div style="display: flex; justify-content: center;">
+    <div class="" style="display: flex;  width: 98%;">
+        <div class="card" style="flex: 0 0 6%;">
+            <div class="card-header">
+                <h6>Tarih</h6>
+            </div>
+            <div class="card-body">
+                <p style="font-size: 12px;">01/12/2025</p>
+            </div>
+        </div>
+
+        <div class="card" style="flex: 0 0 62%;">
+            <div class="card-header">
+                <h6>Açıklama</h6>
+            </div>
+            <div class="card-body">
+                <p>deneme acıklam</p>
+            </div>
+        </div>
+
+        <div class="card" style="flex: 0 0 10%;">
+          <div class="card-header">
+              <h6>Ödeme Tutarı</h6>
+          </div>
+          <div class="card-body">
+              <p>151.151,55</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 0 0 6%;">
+          <div class="card-header">
+              <h6>Para Birimi</h6>
+          </div>
+          <div class="card-body">
+              <p>Dolar</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 0 0 8%;">
+          <div class="card-header">
+              <h6>Ödeme Yolu</h6>
+          </div>
+          <div class="card-body">
+              <p>Banka</p>
+          </div>
+        </div>
+
+        <div class="card" style="flex: 0 0 8%;">
+          <div class="card-header">
+              <h6>SGB Belge No</h6>
+          </div>
+          <div class="card-body">
+              <p>13000001515</p>
+          </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
 {% endblock %}
