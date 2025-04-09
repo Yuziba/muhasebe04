@@ -5,7 +5,7 @@
     <h3 style="padding-bottom: 20px; text-align:center">DENEME</h3>
     
     
-  <form action="#" method="POST">
+  <form action="" method="POST">
       {% csrf_token%}
       <div class="" style="width: 100%; margin:auto;">
         <div class="card">
@@ -121,14 +121,18 @@
         return regex.test(dateString);
     }
     </script>
-    
   
-
-
 </div>
+
+
+{% for i in list %}
+        <center><b>{{i.olurNo}}</b></center><hr/>
+        <center><b>{{i.olurAciklama}}</b></center><hr/>
+    {% endfor%}
 
 <div style="display: flex; justify-content: center;">
     <div class="" style="display: flex;  width: 98%;">
+
         <div class="card" style="flex: 0 0 6%;">
             <div class="card-header">
                 <h6>Tarih</h6>
@@ -178,13 +182,17 @@
           <div class="card-header">
               <h6>SGB Belge No</h6>
           </div>
-          <div class="card-body">
+          <div class="card-body" style="padding: 0px">
               <p>13000001515</p>
           </div>
         </div>
 
+        
+
     </div>
+    
 </div>
+
 
 
 
