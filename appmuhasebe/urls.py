@@ -5,5 +5,5 @@ app_name = 'appmuhasebe'
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("defterolur/", views.defterolur, name="defterolur"),
+    path("defterolur/", views.defterolur, name="defterolur"),  
 ]

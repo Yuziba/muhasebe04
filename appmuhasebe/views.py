@@ -7,16 +7,11 @@ from . import models
 def index(request):
     return render(request, "appmuhasebe/index.html")
 
-def defterolur(request):
-    return render(request, "appmuhasebe/defterolur.html")
-
-
-
 
 
 # |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Defterlere veri kaydetme
 # ------------------------------------------------------------------------ Olur defterine veri kaydetme
-def kayitOlurDefterView(request):
+def defterolur(request):
     if request.method == "POST":
         olurNo          = request.POST.get("olurNo", "")
         olurAciklama    = request.POST.get("olurAciklama", "")
@@ -31,11 +26,11 @@ def kayitOlurDefterView(request):
                                                    olurOdemeTutar   = olurOdemeTutar,
                                                    olurParaBirimi   = olurParaBirimi,)
         # return redirect(reverse('appmuhasebe:defterolur'))
-        response = HttpResponse('<script>window.close(); window.opener.location.reload();</script>') #kayit butonuna tiklandiktan sonra pencere kapatma islemi ve yenileme
-        return response
+        print("Form başarıyla kaydedildi.")
+        return render(request, 'appmuhasebe/defterolur.html', {"basarili": True})  # İstersen context de ver
     else:
-        return render(request, 'appmuhasebe/index.html')
-
+        # GET isteği geldiğinde formu göstermek için:
+        return render(request, 'appmuhasebe/defterolur.html')
 
 
 

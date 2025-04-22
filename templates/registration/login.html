@@ -1,0 +1,9 @@
+{% if user.is_authenticated %}
+    <h4>Wellcome {{user.username}}</h4>
+{% else %}
+    <form action="{% url 'login' %}" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Enter</button>
+    </form>
+{% endif %}

@@ -56,17 +56,21 @@
               </li>
               <!--Dosya Yedekleme Alanı-->
               <ul class="navbar-nav ms-auto mb-2 mb-md-0">
+                {% if request.user.is_authenticated %}
                 <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">Giriş</a>
+                  <a class="nav-link" aria-current="page" href="{% url 'logout' %}?next=/">Çıkış</a>
+                </li>
+                {% else %}
+                <li class="nav-item">
+                  <a class="nav-link" aria-current="page" href="{% url 'login' %}">Giriş</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" aria-current="page" href="#">Kayıt Ol</a>
                 </li>
-                <li class="nav-item">
-                  <a class="nav-link" aria-current="page" href="#">Çıkış</a>
-                </li>
+                {% endif %}
               </ul>
             </ul>
+
           </div>
         </div>
       </nav>
