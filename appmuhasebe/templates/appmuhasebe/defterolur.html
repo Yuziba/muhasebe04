@@ -4,23 +4,29 @@
 <div class="container-xxl">
     <h3 style="padding-bottom: 20px; text-align:center">DENEME</h3>
     
-    
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||  -->
+<!-- formdaki veriler defterolur view fonksiyonu ile modele gonderilir -->  
   <form action="{% url 'appmuhasebe:defterolur' %}" method="POST">
       {% csrf_token%}
       <div class="" style="width: 100%; margin:auto;">
         <div class="card">
           <div class="card-header" style="text-align: center;">
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+<!-- Açıklama -->
+            <div class="onaysutun onayaciklama" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onayaciklama" class="form-label" style="width:20%; padding-right:10px;">Açıklama</label>
+              <input type="text" class="form-control" id="olurAciklama" name="olurAciklama" maxlength="110">
+            </div>
 
+<!-- Onay Tarihi -->
               <div class="" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
-                <label for="" class="form-label" style="width:20%; padding-right:10px;">Onay Tarihi</label>
-                <input type="date" class="form-control" id="onay_tarih" name="onay_tarih">
+                <label for="olurTarih" class="form-label" style="width:20%; padding-right:10px;">Onay Tarihi</label>
+                <input type="date" class="form-control" id="olurTarih" name="olurTarih">
               </div>
 
               <script>  // Sayfa yüklendiğinde çalışacak JavaScript kodu
                 document.addEventListener('DOMContentLoaded', function () {
                     var today = new Date().toISOString().split('T')[0]; // Bugünün tarihini alma
-                    var onayTarihInput = document.getElementById('onay_tarih'); // Onay Tarihi alanına bugünün tarihini atama
+                    var onayTarihInput = document.getElementById('olurTarih'); // Onay Tarihi alanına bugünün tarihini atama
                     if (onayTarihInput) {
                         onayTarihInput.value = onayTarihInput.value || today;
                     }
@@ -28,23 +34,18 @@
               </script>
             
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->         
-            <div class="onaysutun onayaciklama" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
-              <label for="onayaciklama" class="form-label" style="width:20%; padding-right:10px;">Açıklama</label>
-              <input type="text" class="form-control" id="onay_aciklama" name="onay_aciklama" maxlength="110">
-            </div>
-            
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->
+
     
-            <div class="onaysutun onay_odemetutar" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
-              <label for="onay_odemetutar" class="form-label" style="width:20%; padding-right:10px;">Ödeme Tutarı</label>
-              <input type="text" class="form-control" id="onay_odemetutar" name="onay_odemetutar">
+            <div class="onaysutun olurOdemeTutar" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="olurOdemeTutar" class="form-label" style="width:20%; padding-right:10px;">Ödeme Tutarı</label>
+              <input type="text" class="form-control" id="olurOdemeTutar" name="olurOdemeTutar">
             </div>
             
            <!-- bu alan ilerde guncellenecek. suna sadece rakam ve virgul girilmesine izin veriyor.
           daha sonra virgulden sonra 2 basamak olarak sinirlandirmak gerek
         -->
             <script>
-              document.getElementById("onay_odemetutar").addEventListener("input", function() {
+              document.getElementById("olurOdemeTutar").addEventListener("input", function() {
                   var inputValue = this.value;
                   // Girdiyi kontrol et
                   if (!isValidInput(inputValue)) {
@@ -67,7 +68,7 @@
     
           <div class="onaysutun onay_parabirimi" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
             <label for="onay_parabirimi" class="form-label" style="width:20%; padding-right:10px;">Para Birimi</label>
-            <select class="form-select" id="onay_parabirimi" name="onay_parabirimi">
+            <select class="form-select" id="olurParaBirimi" name="olurParaBirimi">
                 <option value="Som">Som</option>
                 <option value="Lira">Lira</option>
                 <option value="Dolar">Dolar</option>
@@ -78,19 +79,19 @@
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->    
             <div class="onaysutun onay_odemeyolu" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
               <label for="onay_odemeyolu" class="form-label" style="width:20%; padding-right:10px;">Ödeme Yolu</label>
-              <select class="form-select" id="onay_odemeyolu" name="onay_odemeyolu">
+              <select class="form-select" id="olurOdemeYolu" name="olurOdemeYolu">
                 <option value="Banka">Banka</option>
                 <option value="Kasa">Kasa</option>
                 <option value="Genel Olur">Genel Olur</option>
               </select>
             </div>
 <!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->   
-            <!--belge no olarak ele alindi ama database de degsitirilmedi-->
-            <div class="onaysutun onayno" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
-              <label for="onayno" class="form-label" style="width:20%; padding-right:10px;"> SGB Belge No</label>
-              <input type="text" class="form-control" id="onayno" name="onay_no"> 
+           
+            <div class="onaysutun olurSGBBelgeNo" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="olurSGBBelgeNo" class="form-label" style="width:20%; padding-right:10px;"> SGB Belge No</label>
+              <input type="text" class="form-control" id="olurSGBBelgeNo" name="olurSGBBelgeNo"> 
             </div>
-    
+<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->    
             <div style="width: 100%; display:flex"> 
               
                 <button type="submit" class="btn btn-primary btn-sm" style="width: 40%; margin:auto" id="closeNewWindowButton">Kaydet</button>
@@ -124,75 +125,64 @@
   
 </div>
 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Modele kadedilen verileri listeleme --> 
 
-{% for i in list %}
-        <center><b>{{i.olurNo}}</b></center><hr/>
-        <center><b>{{i.olurAciklama}}</b></center><hr/>
-    {% endfor%}
+  <center><b>{{i.username}}</b></center><hr/>
+  <center><b>{{i.olurNo}}</b></center><hr/>
+  <center><b>{{i.olurAciklama}}</b></center><hr/>
+  <center><b>{{i.olurTarih}}</b></center><hr/>
+  <center><b>{{i.olurOdemeTutar}}</b></center><hr/>
+  <center><b>{{i.olurParaBirimi}}</b></center><hr/>
+  <center><b>{{i.olurOdemeYolu}}</b></center><hr/>
+  
 
+{% for i in defterolur_goster %}
 <div style="display: flex; justify-content: center;">
-    <div class="" style="display: flex;  width: 98%;">
-
-        <div class="card" style="flex: 0 0 6%;">
-            <div class="card-header">
-                <h6>Tarih</h6>
-            </div>
-            <div class="card-body">
-                <p style="font-size: 12px;">01/12/2025</p>
-            </div>
-        </div>
-
-        <div class="card" style="flex: 0 0 62%;">
-            <div class="card-header">
-                <h6>Açıklama</h6>
-            </div>
-            <div class="card-body">
-                <p>deneme acıklam</p>
-            </div>
-        </div>
-
-        <div class="card" style="flex: 0 0 10%;">
-          <div class="card-header">
-              <h6>Ödeme Tutarı</h6>
-          </div>
-          <div class="card-body">
-              <p>151.151,55</p>
-          </div>
-        </div>
-
-        <div class="card" style="flex: 0 0 6%;">
-          <div class="card-header">
-              <h6>Para Birimi</h6>
-          </div>
-          <div class="card-body">
-              <p>Dolar</p>
-          </div>
-        </div>
-
-        <div class="card" style="flex: 0 0 8%;">
-          <div class="card-header">
-              <h6>Ödeme Yolu</h6>
-          </div>
-          <div class="card-body">
-              <p>Banka</p>
-          </div>
-        </div>
-
-        <div class="card" style="flex: 0 0 8%;">
-          <div class="card-header">
-              <h6>SGB Belge No</h6>
-          </div>
-          <div class="card-body" style="padding: 0px">
-              <p>13000001515</p>
-          </div>
-        </div>
-
-        
-
-    </div>
+  <div class="" style="display: flex;  width: 98%;">
     
-</div>
+    <div class="card" style="flex: 0 0 4%;">
+      <div class="card-header"><h6>No</h6></div>     
+      <div class="card-body"><p style="font-size: 12px;">0001</p></div>
+    </div>
 
+    <div class="card" style="flex: 0 0 6%;">
+      <div class="card-header"><h6>Tarih</h6></div>     
+      <div class="card-body"><p style="font-size: 12px;">01/12/2025</p></div>
+    </div>
+
+    <div class="card" style="flex: 0 0 62%;">
+      <div class="card-header"><h6>Açıklama</h6></div>
+      <div class="card-body"><p>deneme acıklam</p></div>
+    </div>
+
+    <div class="card" style="flex: 0 0 10%;">
+      <div class="card-header"><h6>Ödeme Tutarı</h6></div>
+      <div class="card-body"><p>151.151,55</p></div>
+    </div>
+
+    <div class="card" style="flex: 0 0 6%;">
+      <div class="card-header"><h6>Para Birimi</h6></div>
+      <div class="card-body"><p>Dolar</p></div>
+    </div>
+
+    <div class="card" style="flex: 0 0 8%;">
+      <div class="card-header"><h6>Ödeme Yolu</h6></div>
+      <div class="card-body"><p>Banka</p></div>
+    </div>
+
+    <div class="card" style="flex: 0 0 8%;">
+      <div class="card-header"><h6>SGB Belge No</h6></div>
+      <div class="card-body" style="padding: 0px"><p>13000001515</p></div>
+    </div>
+
+    <div class="card" style="flex: 0 0 8%;">
+      <div class="card-header"><h6>Yazar</h6></div>
+      <div class="card-body" style="padding: 0px"><p>yusuf</p></div>
+    </div>
+
+  </div> 
+</div>
+{% endfor%}
 
 
 

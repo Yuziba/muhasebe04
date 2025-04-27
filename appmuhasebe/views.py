@@ -18,19 +18,24 @@ def defterolur(request):
         olurTarih       = request.POST.get("olurTarih", "")
         olurOdemeTutar  = request.POST.get("olurOdemeTutar", "")
         olurParaBirimi  = request.POST.get("olurParaBirimi", "")
+        olurOdemeYolu   = request.POST.get("olurOdemeYolu", "")
+        olurSGBBelgeNo  = request.POST.get("olurSGBBelgeNo", "")
         # Bu bilgileri veritabanına kaydet
         models.OnayDefterKayitModel.objects.create(username         = request.user,
                                                    olurNo           = olurNo,
                                                    olurAciklama     = olurAciklama,
                                                    olurTarih        = olurTarih,
                                                    olurOdemeTutar   = olurOdemeTutar,
-                                                   olurParaBirimi   = olurParaBirimi,)
+                                                   olurParaBirimi   = olurParaBirimi,
+                                                   olurOdemeYolu    = olurOdemeYolu,
+                                                   olurSGBBelgeNo   = olurSGBBelgeNo,)
         # return redirect(reverse('appmuhasebe:defterolur'))
         print("Form başarıyla kaydedildi.")
         return render(request, 'appmuhasebe/defterolur.html', {"basarili": True})  # İstersen context de ver
     else:
         # GET isteği geldiğinde formu göstermek için:
-        return render(request, 'appmuhasebe/defterolur.html')
+        defterolur_goster = models.OnayDefterKayitModel.objects.all()
+        return render(request, 'appmuhasebe/defterolur.html', {'defterolur_goster': defterolur_goster})
 
 
 

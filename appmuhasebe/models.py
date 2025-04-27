@@ -10,12 +10,13 @@ class OnayDefterKayitModel(models.Model):
     olurOdemeTutar = models.CharField(max_length=20)
     olurParaBirimi = models.CharField(max_length=20)
     olurOdemeYolu= models.CharField(max_length=20)
+    olurSGBBelgeNo = models.CharField(max_length=10)
 
     def clean(self):
         if not self.olurTarih:
             raise ValidationError({'onayTarih': 'Tarih alanı boş bırakılamaz.'})
 
     def __str__(self):
-        return f"Kullanıcı: {self.username} Belge Numarası: {self.olurNo} Acıklama: {self.olurAciklama} Tarih: {self.olurTarih} Ödemem Tutarı: {self.olurOdemeTutar} Para Birimi: {self.olurParaBirimi} Ödeme Yolu: {self.olurOdemeYolu}"
+        return f"Kullanıcı: {self.username} Belge Numarası: {self.olurNo} Acıklama: {self.olurAciklama} Tarih: {self.olurTarih} Ödemem Tutarı: {self.olurOdemeTutar} Para Birimi: {self.olurParaBirimi} Ödeme Yolu: {self.olurOdemeYolu} SGB Belge No: {self.olurSGBBelgeNo}"
 
    
