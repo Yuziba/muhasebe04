@@ -127,57 +127,87 @@
 
 <!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Modele kadedilen verileri listeleme --> 
 
-  <center><b>{{i.username}}</b></center><hr/>
-  <center><b>{{i.olurNo}}</b></center><hr/>
-  <center><b>{{i.olurAciklama}}</b></center><hr/>
-  <center><b>{{i.olurTarih}}</b></center><hr/>
-  <center><b>{{i.olurOdemeTutar}}</b></center><hr/>
-  <center><b>{{i.olurParaBirimi}}</b></center><hr/>
-  <center><b>{{i.olurOdemeYolu}}</b></center><hr/>
   
+  <center><b>{{i.olurNo}}</b></center><hr/>
+
+  <div style="display: flex; justify-content: center; ">
+    <div class="" style="display: flex;  width: 98%;">
+      
+      <div class="card" style="flex: 0 0 2%; ">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>No</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 4%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Tarih</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 60%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Açıklama</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 7%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Ödeme Tutarı</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 6%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Para Birimi</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 7%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Ödeme Yolu</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 7%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>SGB Belge No</h6></div>
+      </div>
+  
+      <div class="card" style="flex: 0 0 5%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Yazar</h6></div>
+      </div>
+      <div class="card" style="flex: 0 0 2%;">
+        <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Edit</h6></div>
+      </div>
+  
+    </div> 
+  </div> 
 
 {% for i in defterolur_goster %}
 <div style="display: flex; justify-content: center; ">
   <div class="" style="display: flex;  width: 98%;">
     
-    <div class="card" style="flex: 0 0 2%; ">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>No</h6></div>     
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p style="font-size: 12px;">0001</p></div>
+    <div class="card" style="flex: 0 0 2%; ">   
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p style="font-size: 12px;">{{forloop.counter|stringformat:"04d"}}</p></div>
     </div>
 
-    <div class="card" style="flex: 0 0 4%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Tarih</h6></div>     
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p style="font-size: 12px;">01/12/2025</p></div>
+    <div class="card" style="flex: 0 0 4%;">    
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p style="font-size: 12px;">{{i.olurTarih|date:"d.m.Y"}}</p></div>
     </div>
 
     <div class="card" style="flex: 0 0 60%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Açıklama</h6></div>
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>deneme acıklam</p></div>
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.olurAciklama}}</p></div>
     </div>
 
     <div class="card" style="flex: 0 0 7%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Ödeme Tutarı</h6></div>
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>99.999.999,99</p></div>
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.olurOdemeTutar}}</p></div>
     </div>
 
     <div class="card" style="flex: 0 0 6%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Para Birimi</h6></div>
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>Dolar</p></div>
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.olurParaBirimi}}</p></div>
     </div>
 
     <div class="card" style="flex: 0 0 7%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Ödeme Yolu</h6></div>
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>Banka</p></div>
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.olurOdemeYolu}}</p></div>
     </div>
 
     <div class="card" style="flex: 0 0 7%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>SGB Belge No</h6></div>
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>13000001515</p></div>
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.olurSGBBelgeNo}}</p></div>
     </div>
 
-    <div class="card" style="flex: 0 0 6%;">
-      <div class="card-header" style="padding: 0px; margin: 0px; text-align: center;"><h6>Yazar</h6></div>
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>yusuf</p></div>
+    <div class="card" style="flex: 0 0 5%;">
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.username}}</p></div>
+    </div>
+    <div class="card" style="flex: 0 0 2%;">
+      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>bu</p></div>
     </div>
 
   </div> 
