@@ -1,0 +1,10 @@
+/*Delete ve Edit simgeleri için hover*/
+.edit-icon {
+    transition: transform 0.2s ease;
+    width: 100%;
+    height: auto;
+  }
+
+  .edit-icon:hover {
+    transform: scale(1.3); /* Hover olunca %30 büyür */
+  }

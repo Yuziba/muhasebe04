@@ -1,7 +1,8 @@
 from django.http import HttpResponse
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse
 from . import models
+from django.contrib.auth.decorators import login_required
 
 # |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| HTML sayfalarını görüntüleme
 def index(request):
@@ -37,8 +38,37 @@ def defterolur(request):
         defterolur_goster = models.OnayDefterKayitModel.objects.all()
         return render(request, 'appmuhasebe/defterolur.html', {'defterolur_goster': defterolur_goster})
 
+# ------------------------------------------------------------------------ Olur defterinden kayıt silme
+@login_required
+def defterolur_delete_view(request, id):
+    onay_bilgi = models.OnayDefterKayitModel.objects.get(pk=id)
+    if request.user == onay_bilgi.username:                      #kontrol
+        models.OnayDefterKayitModel.objects.filter(id=id).delete() #silme kodu
+        return redirect('appmuhasebe:defterolur')
 
 
+# ------------------------------------------------------------------------ Olur defterinde kayıt güncelleme
+def defterolur_edit_view(request, id):
+    onay_bilgi = get_object_or_404(models.OnayDefterKayitModel, pk=id)
+    if request.method == 'POST':
+        # POST verilerini al
+        olurNo = request.POST.get('olurNo')
+        olurAciklama = request.POST.get('olurAciklama')
+        olurTarih = request.POST.get('olurTarih')
+        olurOdemeTutar = request.POST.get('olurOdemeTutar')
+        olurParaBirimi = request.POST.get('olurParaBirimi')
+        olurOdemeYolu = request.POST.get('olurOdemeYolu')
+        olurSGBBelgeNo = request.POST.get('olurSGBBelgeNo')
+        # Modeli güncelle
+        onay_bilgi.olurNo = olurNo
+        onay_bilgi.olurAciklama = olurAciklama
+        onay_bilgi.olurTarih = olurTarih
+        onay_bilgi.olurOdemeTutar = olurOdemeTutar
+        onay_bilgi.olurParaBirimi = olurParaBirimi
+        onay_bilgi.olurOdemeYolu = olurOdemeYolu
+        onay_bilgi.olurSGBBelgeNo = olurSGBBelgeNo
+        onay_bilgi.save()
+        return redirect('appmuhasebe:defterolur')
 
-
+    return render(request, 'appmuhasebe/editolur.html', {'onay_bilgi': onay_bilgi})
 

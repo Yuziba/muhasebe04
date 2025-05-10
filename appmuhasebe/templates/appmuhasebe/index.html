@@ -1,9 +1,10 @@
-<h3>index</h3>
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 <div class="container">
     {% if user.is_authenticated %}
         <h4>Wellcome {{user.username}}</h4>
     {% endif %}
 </div>
+
 {% endblock %}

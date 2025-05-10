@@ -1,8 +1,7 @@
-<h3>Defter Olur</h3>
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 <div class="container-xxl">
-    <h3 style="padding-bottom: 20px; text-align:center">DENEME</h3>
     
 <!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||  -->
 <!-- formdaki veriler defterolur view fonksiyonu ile modele gonderilir -->  
@@ -14,7 +13,7 @@
 <!-- Açıklama -->
             <div class="onaysutun onayaciklama" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
               <label for="onayaciklama" class="form-label" style="width:20%; padding-right:10px;">Açıklama</label>
-              <input type="text" class="form-control" id="olurAciklama" name="olurAciklama" maxlength="110">
+              <input type="text" class="form-control" id="olurAciklama" name="olurAciklama" maxlength="140">
             </div>
 
 <!-- Onay Tarihi -->
@@ -33,38 +32,84 @@
                 });
               </script>
             
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->         
-
-    
+<!-- Ödeme Tutarı -->
             <div class="onaysutun olurOdemeTutar" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
               <label for="olurOdemeTutar" class="form-label" style="width:20%; padding-right:10px;">Ödeme Tutarı</label>
               <input type="text" class="form-control" id="olurOdemeTutar" name="olurOdemeTutar">
             </div>
             
-           <!-- bu alan ilerde guncellenecek. suna sadece rakam ve virgul girilmesine izin veriyor.
-          daha sonra virgulden sonra 2 basamak olarak sinirlandirmak gerek
-        -->
-            <script>
-              document.getElementById("olurOdemeTutar").addEventListener("input", function() {
-                  var inputValue = this.value;
-                  // Girdiyi kontrol et
-                  if (!isValidInput(inputValue)) {
-                      alert("Geçerli bir sayı girin.");
-                      this.value = "";  // Girdiyi sıfırla veya başka bir işlem yapabilirsiniz
-                  } 
-              });
+<!-- Ödeme Tutarının binlik basamk ayracı ve virgülden sonra 2 basamaklı olması-->
+<script>
+  document.getElementById('olurOdemeTutar').addEventListener('blur', function(e) {
+    formatCurrencyInput(this);
+  });
+
+  document.getElementById('olurOdemeTutar').addEventListener('focus', function(e) {
+    this.value = this.value.replace(/[^\d,]/g, '');
+  });
+
+  document.getElementById('olurOdemeTutar').addEventListener('input', function(e) {
+    // Sadece rakam ve virgüle izin ver
+    this.value = this.value.replace(/[^\d,]/g, '');
+    
+    // Virgül kontrolü
+    let parts = this.value.split(',');
+    
+    // Birden fazla virgülü engelle
+    if (parts.length > 2) {
+      this.value = parts[0] + ',' + parts.slice(1).join('');
+      parts = this.value.split(',');
+    }
+    
+    // Virgülden sonra maksimum 2 rakam kontrolü
+    if (parts.length > 1 && parts[1].length > 2) {
+      this.value = parts[0] + ',' + parts[1].substring(0, 2);
+    }
+  });
+
+  function formatCurrencyInput(input) {
+    let value = input.value.replace(/[^\d]/g, '');
+    
+    if (!value) {
+      input.value = '';
+      return;
+    }
+
+    // Ondalık kısmı ayır
+    let hasDecimal = input.value.includes(',');
+    let decimalPart = '';
+    
+    if (hasDecimal) {
+      let parts = input.value.split(',');
+      value = parts[0].replace(/[^\d]/g, '');
+      decimalPart = parts[1] || '';
+    }
+
+    // Tam sayı kısmına binlik ayraçları
+    let integerPart = value.length > 0 ? parseInt(value, 10).toString() : '0';
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    // Ondalık kısmı formatla (max 2 hane)
+    if (decimalPart.length > 2) {
+      decimalPart = decimalPart.substring(0, 2);
+    } else if (decimalPart.length === 1) {
+      decimalPart += '0';
+    } else if (decimalPart.length === 0 && hasDecimal) {
+      decimalPart = '00';
+    }
+
+    // Sonucu birleştir
+    if (hasDecimal || decimalPart) {
+      input.value = integerPart + ',' + decimalPart;
+    } else {
+      input.value = integerPart + ',00';
+    }
+  }
+</script>
+            
           
-              
-              function isValidInput(value) {    // Geçerli girdi kontrolü için yardımcı fonksiyon
-                  var regex = /^[0-9,]*$/;      // Rakam ve virgül içermeli
-                  return regex.test(value);
-              }
-          </script>
           
-          
-          
-          
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->          
+<!-- Para Birimi -->          
     
           <div class="onaysutun onay_parabirimi" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
             <label for="onay_parabirimi" class="form-label" style="width:20%; padding-right:10px;">Para Birimi</label>
@@ -76,7 +121,7 @@
             </select>
         </div>
         
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->    
+<!-- Ödeme Yolu -->
             <div class="onaysutun onay_odemeyolu" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
               <label for="onay_odemeyolu" class="form-label" style="width:20%; padding-right:10px;">Ödeme Yolu</label>
               <select class="form-select" id="olurOdemeYolu" name="olurOdemeYolu">
@@ -85,24 +130,22 @@
                 <option value="Genel Olur">Genel Olur</option>
               </select>
             </div>
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->   
-           
+
+<!-- SGB Belge No -->
             <div class="onaysutun olurSGBBelgeNo" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
-              <label for="olurSGBBelgeNo" class="form-label" style="width:20%; padding-right:10px;"> SGB Belge No</label>
+              <label for="olurSGBBelgeNo" class="form-label" style="width:20%; padding-right:10px;">SGB Belge No</label>
               <input type="text" class="form-control" id="olurSGBBelgeNo" name="olurSGBBelgeNo"> 
             </div>
-<!-- --------------------------------------------------------------------------------------------------------------------------------------------------- -->    
-            <div style="width: 100%; display:flex"> 
-              
+<!-- Kaydet -->    
+            <div style="width: 100%; display:flex">
                 <button type="submit" class="btn btn-primary btn-sm" style="width: 40%; margin:auto" id="closeNewWindowButton">Kaydet</button>
-              
             </div>
-            
           </div>
         </div>  
       </div>
-      
   </form>
+
+<!-- Tarih alanı için --> 
   <script>
     document.getElementById("submitFormButton").addEventListener("click", function() {
         var onayTarihInput = document.getElementById("onay_tarih");
@@ -125,10 +168,10 @@
   
 </div>
 
-<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Modele kadedilen verileri listeleme --> 
+<!-- |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Modele kadedilen verileri listeleme -->
 
   
-  <center><b>{{i.olurNo}}</b></center><hr/>
+<hr/>
 
   <div style="display: flex; justify-content: center; ">
     <div class="" style="display: flex;  width: 98%;">
@@ -170,7 +213,7 @@
   
     </div> 
   </div> 
-
+  
 {% for i in defterolur_goster %}
 <div style="display: flex; justify-content: center; ">
   <div class="" style="display: flex;  width: 98%;">
@@ -206,9 +249,28 @@
     <div class="card" style="flex: 0 0 5%;">
       <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>{{i.username}}</p></div>
     </div>
+
     <div class="card" style="flex: 0 0 2%;">
-      <div class="card-body" style="padding: 0px; margin: 0px; text-align: center;"><p>bu</p></div>
+      <div class="card-body" style="padding: 0px; margin: 0px; display: flex; align-items: center; justify-content: center;">
+        <div class="edit-icon" style="background-color: #fce5e5; border: 1px solid #000; border-radius: 5px;">
+          <a href="{% url 'appmuhasebe:defterolur_delete_view' id=i.id %}" 
+              class="btn btn-sm " style=" height: 16px; width:16px; display: flex; align-items: center; justify-content: center; ">
+              <img  src="{% static 'appmuhasebe/images/trash.svg' %}" alt="Sil">
+          </a>
+        </div> 
+        <div class="edit-icon" style="background-color: #f5c66e; border: 1px solid #000; border-radius: 5px;">
+          <a href="{% url 'appmuhasebe:defterolur_edit_view' id=i.id %}" 
+              class="btn btn-sm" style=" height: 16px; width:16px; display: flex; align-items: center; justify-content: center;">
+              <img src="{% static 'appmuhasebe/images/edit.svg' %}" alt="Edit">
+          </a>
+        </div>
+      </div>
     </div>
+
+    
+    
+
+    
 
   </div> 
 </div>

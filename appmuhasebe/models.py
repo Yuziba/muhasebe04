@@ -5,7 +5,7 @@ from django.forms import ValidationError
 class OnayDefterKayitModel(models.Model):
     username = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     olurNo = models.CharField(max_length=4)
-    olurAciklama = models.CharField(max_length=110, default='my_default_value')
+    olurAciklama = models.CharField(max_length=2500, default='my_default_value')
     olurTarih = models.DateField()  #auto_now_add ile kullanci deger girmese bile otomatik tarih atamasi yapar. defter_onay_list.html icinde ise {{bilgi.onay_tarih|date:"d.m.Y"}} seklinde formatladik
     olurOdemeTutar = models.CharField(max_length=20)
     olurParaBirimi = models.CharField(max_length=20)
