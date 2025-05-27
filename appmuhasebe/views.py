@@ -7,10 +7,10 @@ from django.contrib.auth.decorators import login_required
 # |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| HTML sayfalarını görüntüleme
 def index(request):
     return render(request, "appmuhasebe/index.html")
+    
 
 
-
-# |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Defterlere veri kaydetme
+# |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Olur Defter
 # ------------------------------------------------------------------------ Olur defterine veri kaydetme
 def defterolur(request):
     if request.method == "POST":
@@ -32,7 +32,8 @@ def defterolur(request):
                                                    olurSGBBelgeNo   = olurSGBBelgeNo,)
         # return redirect(reverse('appmuhasebe:defterolur'))
         print("Form başarıyla kaydedildi.")
-        return render(request, 'appmuhasebe/defterolur.html', {"basarili": True})  # İstersen context de ver
+        #return render(request, 'appmuhasebe/defterolur.html', {"basarili": True})  # İstersen context de ver
+        return redirect(reverse('appmuhasebe:defterolur'))
     else:
         # GET isteği geldiğinde formu göstermek için:
         defterolur_goster = models.OnayDefterKayitModel.objects.all()
@@ -52,7 +53,6 @@ def defterolur_edit_view(request, id):
     onay_bilgi = get_object_or_404(models.OnayDefterKayitModel, pk=id)
     if request.method == 'POST':
         # POST verilerini al
-        olurNo = request.POST.get('olurNo')
         olurAciklama = request.POST.get('olurAciklama')
         olurTarih = request.POST.get('olurTarih')
         olurOdemeTutar = request.POST.get('olurOdemeTutar')
@@ -60,7 +60,6 @@ def defterolur_edit_view(request, id):
         olurOdemeYolu = request.POST.get('olurOdemeYolu')
         olurSGBBelgeNo = request.POST.get('olurSGBBelgeNo')
         # Modeli güncelle
-        onay_bilgi.olurNo = olurNo
         onay_bilgi.olurAciklama = olurAciklama
         onay_bilgi.olurTarih = olurTarih
         onay_bilgi.olurOdemeTutar = olurOdemeTutar
@@ -72,3 +71,19 @@ def defterolur_edit_view(request, id):
 
     return render(request, 'appmuhasebe/editolur.html', {'onay_bilgi': onay_bilgi})
 
+
+
+# |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| Ziraat Defter
+
+def defterziraat(request):
+    return render(request, "appmuhasebe/defterziraat.html")
+
+# |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| DemirDuz Defter
+
+def defterdemirduz(request):
+    return render(request, "appmuhasebe/defterdemirduz.html")
+
+# |||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||| DemirYF Defter
+
+def defterdemiryf(request):
+    return render(request, "appmuhasebe/defterdemiryf.html")

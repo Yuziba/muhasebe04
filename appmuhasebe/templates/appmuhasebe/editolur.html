@@ -1,5 +1,175 @@
 <h3>edit olur</h3>
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
+<div class="container-xxl">
+    
+<!-- ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||  -->
+<!-- formdaki veriler defterolur view fonksiyonu ile modele gonderilir -->  
+  <form action="{% url 'appmuhasebe:defterolur' %}" method="POST">
+      {% csrf_token%}
+      <div class="" style="width: 100%; margin:auto;">
+        <div class="card">
+          <div class="card-header" style="text-align: center;">
+<!-- Açıklama -->
+            <div class="onaysutun onayaciklama" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onayaciklama" class="form-label" style="width:20%; padding-right:10px;">Açıklama</label>
+              <input type="text" class="form-control" id="olurAciklama" name="olurAciklama" maxlength="140" value="{{onay_bilgi.olurAciklama}}">
+            </div>
+
+
+<!-- Onay Tarihi -->
+              <div class="" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+                <label for="olurTarih" class="form-label" style="width:20%; padding-right:10px;">Onay Tarihi</label>
+                <input type="date" class="form-control" id="olurTarih" name="olurTarih" value="{{onay_bilgi.olurTarih}}">
+              </div>
+
+              <script>  // Sayfa yüklendiğinde çalışacak JavaScript kodu
+                document.addEventListener('DOMContentLoaded', function () {
+                    var today = new Date().toISOString().split('T')[0]; // Bugünün tarihini alma
+                    var onayTarihInput = document.getElementById('olurTarih'); // Onay Tarihi alanına bugünün tarihini atama
+                    if (onayTarihInput) {
+                        onayTarihInput.value = onayTarihInput.value || today;
+                    }
+                });
+              </script>
+            
+<!-- Ödeme Tutarı -->
+            <div class="onaysutun olurOdemeTutar" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="olurOdemeTutar" class="form-label" style="width:20%; padding-right:10px;">Ödeme Tutarı</label>
+              <input type="text" class="form-control" id="olurOdemeTutar" name="olurOdemeTutar" value="{{onay_bilgi.olurOdemeTutar}}">
+            </div>
+            
+<!-- Ödeme Tutarının binlik basamk ayracı ve virgülden sonra 2 basamaklı olması-->
+<script>
+  document.getElementById('olurOdemeTutar').addEventListener('blur', function(e) {
+    formatCurrencyInput(this);
+  });
+
+  document.getElementById('olurOdemeTutar').addEventListener('focus', function(e) {
+    this.value = this.value.replace(/[^\d,]/g, '');
+  });
+
+  document.getElementById('olurOdemeTutar').addEventListener('input', function(e) {
+    // Sadece rakam ve virgüle izin ver
+    this.value = this.value.replace(/[^\d,]/g, '');
+    
+    // Virgül kontrolü
+    let parts = this.value.split(',');
+    
+    // Birden fazla virgülü engelle
+    if (parts.length > 2) {
+      this.value = parts[0] + ',' + parts.slice(1).join('');
+      parts = this.value.split(',');
+    }
+    
+    // Virgülden sonra maksimum 2 rakam kontrolü
+    if (parts.length > 1 && parts[1].length > 2) {
+      this.value = parts[0] + ',' + parts[1].substring(0, 2);
+    }
+  });
+
+  function formatCurrencyInput(input) {
+    let value = input.value.replace(/[^\d]/g, '');
+    
+    if (!value) {
+      input.value = '';
+      return;
+    }
+
+    // Ondalık kısmı ayır
+    let hasDecimal = input.value.includes(',');
+    let decimalPart = '';
+    
+    if (hasDecimal) {
+      let parts = input.value.split(',');
+      value = parts[0].replace(/[^\d]/g, '');
+      decimalPart = parts[1] || '';
+    }
+
+    // Tam sayı kısmına binlik ayraçları
+    let integerPart = value.length > 0 ? parseInt(value, 10).toString() : '0';
+    integerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+
+    // Ondalık kısmı formatla (max 2 hane)
+    if (decimalPart.length > 2) {
+      decimalPart = decimalPart.substring(0, 2);
+    } else if (decimalPart.length === 1) {
+      decimalPart += '0';
+    } else if (decimalPart.length === 0 && hasDecimal) {
+      decimalPart = '00';
+    }
+
+    // Sonucu birleştir
+    if (hasDecimal || decimalPart) {
+      input.value = integerPart + ',' + decimalPart;
+    } else {
+      input.value = integerPart + ',00';
+    }
+  }
+</script>
+            
+          
+          
+<!-- Para Birimi -->          
+    
+          <div class="onaysutun onay_parabirimi" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+            <label for="onay_parabirimi" class="form-label" style="width:20%; padding-right:10px;">Para Birimi</label>
+            <select class="form-select" id="olurParaBirimi" name="olurParaBirimi">
+                <option value="Som">Som</option>
+                <option value="Lira">Lira</option>
+                <option value="Dolar">Dolar</option>
+                <option value="Euro">Euro</option>
+            </select>
+        </div>
+        
+<!-- Ödeme Yolu -->
+            <div class="onaysutun onay_odemeyolu" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="onay_odemeyolu" class="form-label" style="width:20%; padding-right:10px;">Ödeme Yolu</label>
+              <select class="form-select" id="olurOdemeYolu" name="olurOdemeYolu" value="{{onay_bilgi.olurOdemeYolu}}">
+                <option value="Banka">Banka</option>
+                <option value="Kasa">Kasa</option>
+                <option value="Genel Olur">Genel Olur</option>
+              </select>
+            </div>
+
+<!-- SGB Belge No -->
+            <div class="onaysutun olurSGBBelgeNo" style="text-align:left; display: flex; align-items: center; padding-bottom:10px;">
+              <label for="olurSGBBelgeNo" class="form-label" style="width:20%; padding-right:10px;">SGB Belge No</label>
+              <input type="text" class="form-control" id="olurSGBBelgeNo" name="olurSGBBelgeNo" value="{{onay_bilgi.olurSGBBelgeNo}}"> 
+            </div>
+<!-- Kaydet -->    
+            <div style="width: 100%; display:flex">
+                <button type="submit" class="btn btn-primary btn-sm" style="width: 40%; margin:auto" id="closeNewWindowButton">Kaydet</button>
+            </div>
+          </div>
+        </div>  
+      </div>
+  </form>
+
+<!-- Tarih alanı için --> 
+  <script>
+    document.getElementById("submitFormButton").addEventListener("click", function() {
+        var onayTarihInput = document.getElementById("onay_tarih");
+        var onayTarihValue = onayTarihInput.value;
+    
+        // Tarih formatını kontrol et
+        if (!isValidDate(onayTarihValue)) {
+            alert("Geçerli bir tarih formatı girin (YYYY-MM-DD).");
+            // Formun gönderilmesini engelle
+            event.preventDefault();
+        }
+    });
+    
+    // Tarih formatını kontrol etmek için bir yardımcı fonksiyon
+    function isValidDate(dateString) {
+        var regex = /^\d{4}-\d{2}-\d{2}$/;
+        return regex.test(dateString);
+    }
+    </script>
+  
+</div>
+
+
 
 {% endblock %}
